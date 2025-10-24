@@ -65,7 +65,11 @@ export default buildConfig({
     },
   }),
   collections: [Pages, Posts, Media, Categories, Users],
-  cors: [getServerSideURL()].filter(Boolean),
+  cors: [
+    ...[getServerSideURL()].filter(Boolean),
+    'http://localhost:3000',
+    'https://studio.apollographql.com', // ✅ allow Apollo Sandbox
+  ],
   globals: [Header, Footer],
   plugins: [
     ...plugins,
@@ -90,5 +94,8 @@ export default buildConfig({
       },
     },
     tasks: [],
+  },
+  graphQL: {
+    disablePlaygroundInProduction: true,
   },
 })
