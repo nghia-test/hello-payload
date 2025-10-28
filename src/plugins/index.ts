@@ -57,7 +57,9 @@ export const plugins: Plugin[] = [
   }),
   formBuilderPlugin({
     fields: {
-      payment: false,
+      date: true,
+      state: false,
+      radio: true,
     },
     formOverrides: {
       fields: ({ defaultFields }) => {

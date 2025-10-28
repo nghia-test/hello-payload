@@ -78,6 +78,7 @@ export const Posts: CollectionConfig<'posts'> = {
       type: 'tabs',
       tabs: [
         {
+          label: 'Content',
           fields: [
             {
               name: 'heroImage',
@@ -88,10 +89,10 @@ export const Posts: CollectionConfig<'posts'> = {
               name: 'content',
               type: 'richText',
               editor: lexicalEditor({
-                features: ({ rootFeatures }) => {
+                features: ({ defaultFeatures }) => {
                   return [
-                    ...rootFeatures,
-                    HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4'] }),
+                    ...defaultFeatures,
+                    HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }),
                     BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
                     FixedToolbarFeature(),
                     InlineToolbarFeature(),
@@ -103,9 +104,9 @@ export const Posts: CollectionConfig<'posts'> = {
               required: true,
             },
           ],
-          label: 'Content',
         },
         {
+          label: 'Meta',
           fields: [
             {
               name: 'relatedPosts',
@@ -133,7 +134,6 @@ export const Posts: CollectionConfig<'posts'> = {
               relationTo: 'categories',
             },
           ],
-          label: 'Meta',
         },
         {
           name: 'meta',
