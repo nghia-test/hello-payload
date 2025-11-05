@@ -8,7 +8,7 @@ export const Users: CollectionConfig = {
   slug: 'users',
   access: {
     admin: authenticated,
-    create: authenticated,
+    create: () => true,
     delete: authenticated,
     read: authenticated,
     update: authenticated,
@@ -52,5 +52,20 @@ export const Users: CollectionConfig = {
       ],
     },
   ],
+  hooks: {
+    afterLogin: [
+      async ({ user, req, token }) => {
+        // You can access:
+        // user → the logged-in user document
+        // req  → the request object
+        // token → the JWT access token
+        // await sendEmail({
+        //   to: user.email,
+        //   subject: 'Welcome back!',
+        //   text: `Hi ${user.firstName || ''}, you just logged in successfully.`,
+        // })
+      },
+    ],
+  },
   timestamps: true,
 }

@@ -19,6 +19,7 @@ import { getServerSideURL } from './utilities/getURL'
 import { Topics } from './collections/Topics'
 import { Likes } from './collections/Likes'
 import { Comments } from './collections/Comments'
+import { UserGroups } from './collections/UserGroups'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -67,7 +68,7 @@ export default buildConfig({
       connectionString: process.env.DATABASE_URI || '',
     },
   }),
-  collections: [Pages, Posts, Media, Categories, Users, Topics, Likes, Comments],
+  collections: [Pages, Posts, Media, Categories, Users, UserGroups, Topics, Likes, Comments],
   cors: [
     ...[getServerSideURL()].filter(Boolean),
     'http://localhost:3000',
