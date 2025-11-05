@@ -86,22 +86,35 @@ export const Posts: CollectionConfig<'posts'> = {
               relationTo: 'media',
             },
             {
-              name: 'content',
-              type: 'richText',
-              editor: lexicalEditor({
-                features: ({ defaultFeatures }) => {
-                  return [
-                    ...defaultFeatures,
-                    HeadingFeature({ enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] }),
-                    BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
-                    FixedToolbarFeature(),
-                    InlineToolbarFeature(),
-                    HorizontalRuleFeature(),
-                  ]
+              name: 'topicList',
+              label: 'Topics',
+              type: 'array',
+              fields: [
+                {
+                  name: 'topic',
+                  type: 'text',
                 },
-              }),
-              label: false,
-              required: true,
+                {
+                  name: 'content',
+                  type: 'richText',
+                  editor: lexicalEditor({
+                    features: ({ defaultFeatures }) => {
+                      return [
+                        ...defaultFeatures,
+                        HeadingFeature({
+                          enabledHeadingSizes: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'],
+                        }),
+                        BlocksFeature({ blocks: [Banner, Code, MediaBlock] }),
+                        FixedToolbarFeature(),
+                        InlineToolbarFeature(),
+                        HorizontalRuleFeature(),
+                      ]
+                    },
+                  }),
+                  label: false,
+                  required: true,
+                },
+              ],
             },
           ],
         },
@@ -218,6 +231,17 @@ export const Posts: CollectionConfig<'posts'> = {
       ],
     },
     ...slugField(),
+    {
+      name: 'form',
+      label: 'Abstract Form',
+      type: 'relationship',
+      relationTo: 'forms',
+      hasMany: false,
+      admin: {
+        position: 'sidebar',
+      },
+      required: true,
+    },
   ],
   hooks: {
     afterChange: [revalidatePost],
