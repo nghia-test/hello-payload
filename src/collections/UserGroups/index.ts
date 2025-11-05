@@ -44,22 +44,15 @@ export const UserGroups: CollectionConfig = {
       name: 'createdBy',
       type: 'relationship',
       relationTo: 'users',
+      defaultValue: ({ user }) => user?.id,
       admin: {
         position: 'sidebar',
         readOnly: true,
+        allowEdit: false,
       },
       access: {
         create: () => false, // ✅ cannot be set manually via API
         update: () => false,
-      },
-      hooks: {
-        beforeChange: [
-          ({ req, operation }) => {
-            if (operation === 'create' && req.user) {
-              return req.user.id // ✅ automatically assign current user
-            }
-          },
-        ],
       },
     },
   ],
