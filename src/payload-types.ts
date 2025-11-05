@@ -74,6 +74,7 @@ export interface Config {
     users: User;
     topics: Topic;
     likes: Like;
+    comments: Comment;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -92,6 +93,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     topics: TopicsSelect<false> | TopicsSelect<true>;
     likes: LikesSelect<false> | LikesSelect<true>;
+    comments: CommentsSelect<false> | CommentsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -260,7 +262,8 @@ export interface Post {
     | null;
   slug?: string | null;
   slugLock?: boolean | null;
-  form: number | Form;
+  form?: (number | null) | Form;
+  likes?: (number | Like)[] | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -598,6 +601,17 @@ export interface Form {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "likes".
+ */
+export interface Like {
+  id: number;
+  user: number | User;
+  post: number | Post;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "CallToActionBlock".
  */
 export interface CallToActionBlock {
@@ -784,12 +798,13 @@ export interface Topic {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "likes".
+ * via the `definition` "comments".
  */
-export interface Like {
+export interface Comment {
   id: number;
-  user: number | User;
   post: number | Post;
+  user: number | User;
+  content: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -993,6 +1008,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'likes';
         value: number | Like;
+      } | null)
+    | ({
+        relationTo: 'comments';
+        value: number | Comment;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1225,6 +1244,7 @@ export interface PostsSelect<T extends boolean = true> {
   slug?: T;
   slugLock?: T;
   form?: T;
+  likes?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -1384,6 +1404,17 @@ export interface TopicsSelect<T extends boolean = true> {
 export interface LikesSelect<T extends boolean = true> {
   user?: T;
   post?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "comments_select".
+ */
+export interface CommentsSelect<T extends boolean = true> {
+  post?: T;
+  user?: T;
+  content?: T;
   updatedAt?: T;
   createdAt?: T;
 }

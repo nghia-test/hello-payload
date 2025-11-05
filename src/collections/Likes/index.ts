@@ -64,5 +64,26 @@ export const Likes: CollectionConfig<'likes'> = {
         return data
       },
     ],
+    afterChange: [
+      async ({ doc, operation, req }) => {
+        if (operation === 'create') {
+          const post = await req.payload.findByID({
+            collection: 'posts',
+            id: doc.post,
+          })
+
+          // Append the new like ID (avoid duplicates)
+          const existingLikes = Array.isArray(post.likes) ? post.likes : []
+          const updatedLikes = [...new Set([...existingLikes, doc.id])]
+
+          // Update the post document
+          await req.payload.update({
+            collection: 'posts',
+            id: doc.post,
+            data: { likes: updatedLikes },
+          })
+        }
+      },
+    ],
   },
 }

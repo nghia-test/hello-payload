@@ -240,7 +240,16 @@ export const Posts: CollectionConfig<'posts'> = {
       admin: {
         position: 'sidebar',
       },
-      required: true,
+      // required: true,
+    },
+    {
+      name: 'likes',
+      type: 'relationship',
+      relationTo: 'likes',
+      hasMany: true,
+      admin: {
+        hidden: true,
+      },
     },
   ],
   hooks: {
